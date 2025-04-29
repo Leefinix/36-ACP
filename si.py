@@ -8,9 +8,9 @@ player_startx = 370
 player_starty = 380
 enemy_startymin = 50
 enemy_startymax = 150
-enemy_speedx = 4
-enemy_speedy = 40
-bullet_speedy = 10
+enemy_speedx = 2
+enemy_speedy = 20
+bullet_speedy = 2
 hitbox_distance = 27
 
 pygame.init()
@@ -107,16 +107,16 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -5
+                playerX_change = -2
             if event.key == pygame.K_RIGHT:
-                playerX_change = 5
+                playerX_change = 2
             if event.key == pygame.K_SPACE and bullet_state == "ready":
                 bulletX = playerX
                 fire(bulletX, bulletY)
             if event.key == pygame.K_a:
-                player2X_change = -5
+                player2X_change = -2
             if event.key == pygame.K_d:
-                player2X_change = 5
+                player2X_change = 2
             if event.key == pygame.K_LCTRL and bullet2_state == "ready":
                 bullet2X = player2X
                 fire2(bullet2X, bullet2Y)
@@ -183,6 +183,12 @@ while running:
             enemyY[i] = random.randint(enemy_startymin, enemy_startymax)
 
         enemy(enemyX[i], enemyY[i], i)
+        if bulletY <= 0:
+            bulletY = player_starty
+            bullet_state = "ready"
+        elif bullet_state == "fire":
+            fire(bulletX, bulletY)
+            bulletY -= bulletY_change
 
     player(playerX, playerY)
     player2(player2X, player2Y)
